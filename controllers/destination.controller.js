@@ -1,6 +1,6 @@
 const Validator = require('fastest-validator');
 const models = require('../models');
-
+const _ = require('lodash');
 // Get API to get all destinations
 function getDestinations(req, res){
     models.Destinations.findAll(
@@ -99,6 +99,9 @@ function getDestinationsDetails(req, res){
               ]
         }
     ).then(result => {
+        result = _.map(result, a => {
+            return a.Destination;
+        });
         res.status(200).json(result);
     }).catch(error => {
         console.log(error);
