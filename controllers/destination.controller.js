@@ -112,8 +112,26 @@ function getDestinationsDetails(req, res){
 }
 
 
+function deleteDestination(req, res){
+    const id = req.params.id;
+    const userId = req.params.userId
+
+    models.saveddestinations.destroy({where:{id:id, userId:userId}}).then(result => {
+        res.status(200).json({
+            message: "Post deleted successfully"
+        });
+    }).catch(error => {
+        res.status(200).json({
+            message: "Something went wrong",
+            error: error
+        });
+    });
+}
+
+
 module.exports = {
     getDestinations: getDestinations,
     save:save,
-    getDestinationsDetails:getDestinationsDetails
+    getDestinationsDetails: getDestinationsDetails,
+    deleteDestination : deleteDestination
 }
