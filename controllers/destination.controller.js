@@ -112,11 +112,15 @@ function getDestinationsDetails(req, res){
 }
 
 
-function deleteDestination(req, res){
+async function deleteDestination(req, res){
     const id = req.params.id;
     const userId = req.params.userId
 
-    models.saveddestinations.destroy({where:{id:id, userId:userId}}).then(result => {
+    // find the destination first
+    const dest = await models.saveddestinations.findOne({ where: { id: id, userId: userId } })
+    console.log(dest);
+    if (dest) {
+      await models.saveddestinations.destroy({where:{id:id, userId:userId}}).then(result => {
         res.status(200).json({
             message: "Destination deleted successfully"
         });
@@ -125,7 +129,13 @@ function deleteDestination(req, res){
             message: "Something went wrong",
             error: error
         });
-    });
+    });   
+    }
+    else {
+        res.status(404).json({
+            message: "No destination found"
+        })
+    }
 }
 
 
