@@ -118,7 +118,7 @@ function deleteDestination(req, res){
 
     models.saveddestinations.destroy({where:{id:id, userId:userId}}).then(result => {
         res.status(200).json({
-            message: "Post deleted successfully"
+            message: "Destination deleted successfully"
         });
     }).catch(error => {
         res.status(200).json({
